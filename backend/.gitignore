@@ -1,0 +1,12 @@
+# Dependências e artefatos gerados
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Segredos/ambiente local
+.env
+.env.*
+!.env.example
+
+# Registros
+npm-debug.log*
