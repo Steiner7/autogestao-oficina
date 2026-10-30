@@ -5,6 +5,7 @@ import { autenticar } from "./middlewares/autenticar.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { authRoutes } from "./routes/auth.routes.js";
 import { clientesRoutes } from "./routes/clientes.routes.js";
+import { veiculosRoutes } from "./routes/veiculos.routes.js";
 
 export const app = express();
 
@@ -17,6 +18,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/clientes", autenticar, clientesRoutes);
+app.use("/api/veiculos", autenticar, veiculosRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ mensagem: "Rota não encontrada." });

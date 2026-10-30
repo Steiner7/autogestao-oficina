@@ -59,6 +59,10 @@ clientesRoutes.put("/:id", async (req, res) => {
 
 clientesRoutes.delete("/:id", async (req, res) => {
   const id = parseId(req.params.id);
+  const vinculados = await pool.query("SELECT 1 FROM veiculo WHERE id_cliente = $1 LIMIT 1", [id]);
+  if (vinculados.rowCount) {
+    throw new HttpError(409, "Este cliente possui veículos cadastrados. Não é possível excluí-lo sem comprometer os vínculos e o histórico.");
+  }
   const { rowCount } = await pool.query("DELETE FROM cliente WHERE id_cliente = $1", [id]);
   if (!rowCount) throw new HttpError(404, "Cliente não encontrado.");
   res.status(204).end();
