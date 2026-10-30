@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { config } from "./config.js";
+import { autenticar } from "./middlewares/autenticar.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { authRoutes } from "./routes/auth.routes.js";
+import { clientesRoutes } from "./routes/clientes.routes.js";
 
 export const app = express();
 
@@ -14,6 +16,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/clientes", autenticar, clientesRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ mensagem: "Rota não encontrada." });

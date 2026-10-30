@@ -15,7 +15,14 @@ Organizar o dia a dia da oficina em um só lugar:
 
 - **Banco de dados:** PostgreSQL
 - **Back-end:** Node.js + Express + TypeScript
-- **Front-end:** React + TypeScript + Vite
+- **Front-end (a fazer):** React + TypeScript + Vite
+
+## Funcionalidades
+
+- [x] Login de usuários (token JWT)
+- [x] Cadastro de clientes (API)
+- [ ] Cadastro de veículos (a fazer)
+- [ ] Ordens de serviço (a fazer)
 
 ## Banco de dados
 

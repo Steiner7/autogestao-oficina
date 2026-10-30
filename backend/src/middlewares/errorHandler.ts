@@ -4,9 +4,7 @@ import { HttpError } from "../utils/HttpError.js";
 
 // Códigos de erro do PostgreSQL: https://www.postgresql.org/docs/current/errcodes-appendix.html
 const mensagensUnique: Record<string, string> = {
-  cliente_cpf_key: "Já existe um cliente cadastrado com esse CPF.",
-  veiculo_placa_key: "Já existe um veículo cadastrado com essa placa.",
-  usuario_login_key: "Já existe um usuário com esse login."
+  cliente_cpf_key: "Já existe um cliente cadastrado com esse CPF."
 };
 
 export const errorHandler: ErrorRequestHandler = (erro, _req, res, _next) => {
@@ -24,10 +22,6 @@ export const errorHandler: ErrorRequestHandler = (erro, _req, res, _next) => {
   }
   if (erro?.code === "23505") {
     res.status(409).json({ mensagem: mensagensUnique[erro.constraint] ?? "Registro duplicado." });
-    return;
-  }
-  if (erro?.code === "23503") {
-    res.status(409).json({ mensagem: "Operação viola um vínculo entre registros (chave estrangeira)." });
     return;
   }
   console.error(erro);
