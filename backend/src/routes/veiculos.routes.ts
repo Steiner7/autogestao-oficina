@@ -60,6 +60,10 @@ veiculosRoutes.put("/:id", async (req, res) => {
 
 veiculosRoutes.delete("/:id", async (req, res) => {
   const id = parseId(req.params.id);
+  const vinculadas = await pool.query("SELECT 1 FROM ordem_servico WHERE id_veiculo = $1 LIMIT 1", [id]);
+  if (vinculadas.rowCount) {
+    throw new HttpError(409, "Este veículo possui ordens de serviço e não pode ser excluído sem comprometer o histórico.");
+  }
   const { rowCount } = await pool.query("DELETE FROM veiculo WHERE id_veiculo = $1", [id]);
   if (!rowCount) throw new HttpError(404, "Veículo não encontrado.");
   res.status(204).end();

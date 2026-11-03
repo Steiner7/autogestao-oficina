@@ -22,7 +22,7 @@ Organizar o dia a dia da oficina em um só lugar:
 - [x] Login de usuários (token JWT)
 - [x] Cadastro de clientes (API)
 - [x] Cadastro de veículos (API)
-- [ ] Ordens de serviço (a fazer)
+- [x] Ordens de serviço (API)
 
 ## Banco de dados
 
