@@ -15,7 +15,7 @@ Organizar o dia a dia da oficina em um só lugar:
 
 - **Banco de dados:** PostgreSQL
 - **Back-end:** Node.js + Express + TypeScript
-- **Front-end (a fazer):** React + TypeScript + Vite
+- **Front-end (em desenvolvimento):** React + TypeScript + Vite
 
 ## Funcionalidades
 
