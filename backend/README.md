@@ -51,7 +51,7 @@ A API fica em `http://localhost:3333/api`.
 | `DATABASE_URL` | Conexão do PostgreSQL |
 | `JWT_SECRET` | Segredo para assinar os tokens — use um valor longo e aleatório |
 | `JWT_EXPIRES_IN` | Validade do token (padrão `8h`) |
-| `CORS_ORIGIN` | Origem liberada no CORS (padrão `http://localhost:5173`) |
+| `CORS_ORIGIN` | Origem do front-end liberada no CORS (padrão `http://localhost:5173`) |
 
 ## Rotas
 
@@ -78,7 +78,7 @@ Erros retornam `{ "mensagem": "..." }`.
 
 Status válidos de OS: `Aberta`, `Em andamento`, `Concluída`, `Cancelada`. Ao mudar para `Concluída`, a data de fechamento é preenchida; ao sair dela, é limpa.
 
-Os campos são retornados em camelCase (`clienteId`, `dataAbertura`...).
+Os campos são retornados em camelCase (`clienteId`, `dataAbertura`...), no mesmo formato dos tipos do front-end.
 
 ## Estrutura
 

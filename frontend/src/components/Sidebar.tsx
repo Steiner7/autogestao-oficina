@@ -1,8 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import { FiUsers, FiTruck, FiClipboard, FiLogOut, FiSettings } from "react-icons/fi";
+import { useAuth } from "../contexts/AuthContext";
 import "./Sidebar.css";
 
 export default function Sidebar() {
+  const { usuario, sair } = useAuth();
   return (
     <aside className="sidebar" aria-label="Menu principal">
       <div className="sidebar-inner">
@@ -23,7 +25,8 @@ export default function Sidebar() {
           </NavLink>
         </nav>
         <div className="sidebar-bottom">
-          <Link to="/" className="sidebar-link"><FiLogOut aria-hidden="true" /><span>Sair</span></Link>
+          <Link to="/" className="sidebar-link" onClick={sair}><FiLogOut aria-hidden="true" /><span>Sair</span></Link>
+          {usuario && <p className="sidebar-disclaimer">Conectado como {usuario.nome}</p>}
         </div>
       </div>
     </aside>

@@ -1,22 +1,38 @@
 import { useState, type FormEvent } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff, FiLock, FiUser, FiSettings } from "react-icons/fi";
+import { useAuth } from "../../contexts/AuthContext";
+import { mensagemDeErro } from "../../services/api";
 import "./Login.css";
 
 export default function Login() {
+  const { token, entrar: autenticar } = useAuth();
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
-  function entrar(event: FormEvent<HTMLFormElement>) {
+  async function entrar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!usuario.trim() || !senha.trim()) {
       setMensagem("Preencha o usuário e a senha.");
       return;
     }
-    // A autenticação será conectada à API na próxima etapa.
-    setMensagem("A autenticação ainda não foi conectada ao servidor.");
+    setEnviando(true);
+    setMensagem("");
+    try {
+      await autenticar(usuario.trim(), senha);
+      navigate("/clientes", { replace: true });
+    } catch (erro) {
+      setMensagem(mensagemDeErro(erro));
+    } finally {
+      setEnviando(false);
+    }
   }
+
+  if (token) return <Navigate to="/clientes" replace />;
 
   return (
     <div className="login-layout">
@@ -48,7 +64,7 @@ export default function Login() {
                 {mostrarSenha ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-            <button type="submit" className="login-submit">Entrar</button>
+            <button type="submit" className="login-submit" disabled={enviando}>{enviando ? "Entrando..." : "Entrar"}</button>
           </form>
           {mensagem && <p className="login-message" role="status">{mensagem}</p>}
         </div>
