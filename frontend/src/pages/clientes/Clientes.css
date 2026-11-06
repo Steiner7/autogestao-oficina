@@ -1,0 +1,2 @@
+.clientes-content { background: #f5f7fb; padding: 40px; }
+@media (max-width: 768px) { .clientes-content { padding: 20px; } }
