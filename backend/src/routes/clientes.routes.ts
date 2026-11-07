@@ -12,9 +12,15 @@ const textoOpcional = (max: number, campo: string) =>
 
 const clienteSchema = z.object({
   nome: z.string({ error: "Informe o nome." }).trim().min(1, "Informe o nome.").max(100, "Nome deve ter no máximo 100 caracteres."),
-  cpf: z.string({ error: "Informe o CPF." }).trim().min(1, "Informe o CPF.").max(14, "CPF deve ter no máximo 14 caracteres."),
-  telefone: textoOpcional(20, "Telefone"),
-  email: textoOpcional(100, "E-mail").refine((email) => !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), "Informe um e-mail válido."),
+  cpf: z.string({ error: "Informe o CPF." })
+    .transform((cpf) => cpf.replace(/\D/g, ""))
+    .refine((cpf) => cpf.length === 11, "Informe um CPF com 11 dígitos.")
+    .transform((cpf) => cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")),
+  telefone: z.string().optional().default("")
+    .transform((telefone) => telefone.replace(/\D/g, ""))
+    .refine((telefone) => telefone.length === 0 || telefone.length === 11, "Informe o telefone com DDD e 9 dígitos: (00) 00000-0000.")
+    .transform((telefone) => telefone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3")),
+  email: textoOpcional(100, "E-mail").refine((email) => !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), "Informe um e-mail válido, com @ (ex.: nome@exemplo.com)."),
   endereco: textoOpcional(150, "Endereço")
 });
 
