@@ -1,0 +1,4 @@
+/* Modal de Ordens de Serviço utiliza os componentes compartilhados do App.css. */
+.os-modal {
+  max-width: 570px;
+}
