@@ -4,12 +4,14 @@ import Sidebar from "../../components/Sidebar";
 import ModalCliente from "../../components/ModalCliente";
 import type { DadosCliente } from "../../components/ModalCliente";
 import { useClientes } from "../../contexts/ClientesContext";
+import { useVeiculos } from "../../contexts/VeiculosContext";
 import { mensagemDeErro } from "../../services/api";
 import type { Cliente } from "../../types/Cliente";
 import "./Clientes.css";
 
 export default function Clientes() {
   const { clientes, carregando, erro, criarCliente, atualizarCliente, excluirCliente: removerCliente } = useClientes();
+  const { veiculos } = useVeiculos();
   const [pesquisa, setPesquisa] = useState("");
   const [modalAberto, setModalAberto] = useState(false);
   const [clienteEditando, setClienteEditando] = useState<Cliente | null>(null);
@@ -43,6 +45,10 @@ export default function Clientes() {
   }
 
   async function excluirCliente(cliente: Cliente) {
+    if (veiculos.some((veiculo) => veiculo.clienteId === cliente.id)) {
+      window.alert("Este cliente possui veículos cadastrados. Não é possível excluí-lo sem comprometer os vínculos e o histórico.");
+      return;
+    }
     if (!window.confirm(`Deseja realmente excluir o cliente ${cliente.nome}?`)) return;
     try {
       await removerCliente(cliente.id);

@@ -1,0 +1,223 @@
+/* Janela */
+.historico-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.historico-modal {
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Cabeçalho */
+.historico-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.historico-header h2 {
+  color: #17365c;
+  font-size: 24px;
+  margin: 0 0 6px;
+}
+
+.historico-header p {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.historico-fechar {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 30px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Dados do veículo */
+.historico-veiculo-info {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.historico-veiculo-info h3 {
+  color: #17365c;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.historico-veiculo-info p {
+  color: #475569;
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+
+/* Lista de serviços */
+.historico-resumo {
+  margin-bottom: 18px;
+  color: #17365c;
+  font-weight: 600;
+}
+
+.historico-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.historico-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.historico-item-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.historico-item-topo h3 {
+  color: #17365c;
+  font-size: 17px;
+  margin: 0;
+}
+
+/* Status */
+.historico-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.historico-aberta {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.historico-andamento {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.historico-concluida {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.historico-cancelada {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Dados do serviço */
+.historico-dados {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #475569;
+  font-size: 14px;
+}
+
+.historico-dados p {
+  margin: 0;
+}
+
+.historico-descricao {
+  margin-top: 18px;
+  padding: 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.historico-descricao strong {
+  color: #17365c;
+  font-size: 14px;
+}
+
+.historico-descricao p {
+  margin: 8px 0 0;
+  color: #475569;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Sem registros */
+.historico-vazio {
+  text-align: center;
+  padding: 35px 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.historico-vazio h3 {
+  color: #17365c;
+  margin-bottom: 10px;
+}
+
+.historico-vazio p {
+  color: #64748b;
+  margin: 0;
+}
+
+/* Rodapé */
+.historico-rodape {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+
+.historico-rodape button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.historico-rodape button:hover {
+  background: #1d4ed8;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .historico-modal {
+    padding: 20px;
+  }
+
+  .historico-item-topo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .historico-rodape button {
+    width: 100%;
+  }
+}

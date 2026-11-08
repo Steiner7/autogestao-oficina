@@ -1,0 +1,11 @@
+.veiculos-content {
+  background: #f5f7fb;
+  padding: 40px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .veiculos-content {
+    padding: 20px;
+  }
+}

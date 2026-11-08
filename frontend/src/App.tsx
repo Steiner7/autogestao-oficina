@@ -1,22 +1,30 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Clientes from "./pages/clientes/Clientes";
+import Veiculos from "./pages/veiculos/Veiculos";
 import RotaProtegida from "./components/RotaProtegida";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ClientesProvider } from "./contexts/ClientesContext";
+import { VeiculosProvider } from "./contexts/VeiculosContext";
+import { OrdensServicoProvider } from "./contexts/OrdensServicoContext";
 import "./App.css";
 
 export default function App() {
   return (
     <AuthProvider>
       <ClientesProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/clientes" element={<RotaProtegida><Clientes /></RotaProtegida>} />
-            <Route path="*" element={<Login />} />
-          </Routes>
-        </BrowserRouter>
+        <VeiculosProvider>
+          <OrdensServicoProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/clientes" element={<RotaProtegida><Clientes /></RotaProtegida>} />
+                <Route path="/veiculos" element={<RotaProtegida><Veiculos /></RotaProtegida>} />
+                <Route path="*" element={<Login />} />
+              </Routes>
+            </BrowserRouter>
+          </OrdensServicoProvider>
+        </VeiculosProvider>
       </ClientesProvider>
     </AuthProvider>
   );
