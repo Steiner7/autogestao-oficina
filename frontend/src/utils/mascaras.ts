@@ -17,3 +17,15 @@ export function formatarTelefone(valor: string) {
   if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
   return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
 }
+
+export function formatarMoeda(valor: number) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+// Converte o texto digitado em reais, preenchendo a partir dos centavos (ex.: "12345" → 123,45).
+// Zeros à esquerda são descartados para que apagar tudo volte a "não informado".
+// Limitado a 10 dígitos, o máximo de decimal(10,2) no banco.
+export function lerMoeda(valor: string): number | null {
+  const d = somenteDigitos(valor).replace(/^0+/, "").slice(0, 10);
+  return d ? Number(d) / 100 : null;
+}
