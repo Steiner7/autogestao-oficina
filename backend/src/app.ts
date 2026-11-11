@@ -7,6 +7,7 @@ import { authRoutes } from "./routes/auth.routes.js";
 import { clientesRoutes } from "./routes/clientes.routes.js";
 import { veiculosRoutes } from "./routes/veiculos.routes.js";
 import { ordensServicoRoutes } from "./routes/ordensServico.routes.js";
+import { fipeRoutes } from "./routes/fipe.routes.js";
 
 export const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/clientes", autenticar, clientesRoutes);
 app.use("/api/veiculos", autenticar, veiculosRoutes);
 app.use("/api/ordens-servico", autenticar, ordensServicoRoutes);
+app.use("/api/fipe", autenticar, fipeRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ mensagem: "Rota não encontrada." });

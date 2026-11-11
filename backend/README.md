@@ -75,6 +75,10 @@ Erros retornam `{ "mensagem": "..." }`.
 | `PUT` | `/api/ordens-servico/:id` | `{ veiculoId, descricao, valor, status }` |
 | `PATCH` | `/api/ordens-servico/:id/concluir` | Conclui e registra a data de fechamento |
 | `DELETE` | `/api/ordens-servico/:id` | Excluir |
+| `GET` | `/api/fipe/:tipo/marcas` | Marcas da tabela FIPE (`tipo`: `carros`, `motos` ou `caminhoes`, que inclui micro-ônibus) |
+| `GET` | `/api/fipe/:tipo/marcas/:codigo/modelos` | Modelos de uma marca |
+
+As rotas `/api/fipe` consultam a [API FIPE gratuita da Parallelum](https://deividfortuna.github.io/fipe/), que permite 500 requisições por dia. Por isso as respostas ficam em cache na memória do servidor por 24h.
 
 Status válidos de OS: `Aberta`, `Em andamento`, `Concluída`, `Cancelada`. Ao mudar para `Concluída`, a data de fechamento é preenchida; ao sair dela, é limpa.
 
