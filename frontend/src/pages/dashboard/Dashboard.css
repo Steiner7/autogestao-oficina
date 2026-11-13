@@ -1,0 +1,257 @@
+/* Estrutura da página */
+.dash-content {
+  background: #f5f7fb;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dash-content > .page-header,
+.dash-content > .notice-error {
+  margin-bottom: 0;
+}
+
+/* Indicadores */
+.dash-indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.dash-indicador {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  color: inherit;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.dash-indicador:hover {
+  border-color: #bfdbfe;
+  box-shadow: 0 4px 18px rgba(37, 99, 235, 0.1);
+}
+
+.dash-indicador-icone {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 21px;
+}
+
+.dash-indicador-titulo {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.dash-indicador-valor {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 750;
+  color: #17365c;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-indicador-detalhe {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Painéis de gráfico */
+.dash-graficos {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 18px;
+}
+
+.dash-grafico {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dash-grafico-topo h2 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: #17365c;
+}
+
+.dash-grafico-topo p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.dash-tabela-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.dash-ver-todas {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.dash-ver-todas:hover {
+  text-decoration: underline;
+}
+
+/* Colunas de faturamento: a coluna inteira é a área de hover, maior que a barra. */
+.dash-colunas {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 250px;
+  margin-top: 22px;
+}
+
+.dash-coluna {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 8px;
+  outline-offset: -3px;
+}
+
+.dash-coluna:hover,
+.dash-coluna.ativa {
+  background: #f1f5fb;
+}
+
+.dash-coluna-area {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 34px 22% 0;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.dash-barra {
+  width: 100%;
+  max-width: 46px;
+  min-height: 0;
+  background: #2563eb;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.dash-coluna.ativa .dash-barra {
+  background: #1d4ed8;
+}
+
+.dash-coluna-rotulo {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.dash-tooltip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+
+.dash-tooltip strong {
+  color: #fff;
+  font-size: 13px;
+}
+
+.dash-grafico-rodape {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.dash-grafico-rodape strong {
+  color: #17365c;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Barras horizontais por status */
+.dash-linhas {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dash-linha {
+  display: grid;
+  grid-template-columns: 116px 1fr 36px;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-linha .os-status {
+  justify-self: start;
+}
+
+.dash-linha-trilho {
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dash-linha-barra {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 0 4px 4px 0;
+  transition: width 0.3s ease;
+}
+
+.dash-linha-valor {
+  text-align: right;
+  color: #17365c;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Responsivo */
+@media (max-width: 1100px) {
+  .dash-graficos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dash-content {
+    padding: 20px;
+  }
+}

@@ -24,7 +24,7 @@ export default function Login() {
     setMensagem("");
     try {
       await autenticar(usuario.trim(), senha);
-      navigate("/clientes", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (erro) {
       setMensagem(mensagemDeErro(erro));
     } finally {
@@ -32,7 +32,7 @@ export default function Login() {
     }
   }
 
-  if (token) return <Navigate to="/clientes" replace />;
+  if (token) return <Navigate to="/dashboard" replace />;
 
   return (
     <div className="login-layout">

@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import { FiUsers, FiTruck, FiClipboard, FiLogOut, FiSettings } from "react-icons/fi";
+import { FiGrid, FiUsers, FiTruck, FiClipboard, FiLogOut, FiSettings } from "react-icons/fi";
 import { useAuth } from "../contexts/AuthContext";
 import "./Sidebar.css";
 
@@ -8,12 +8,15 @@ export default function Sidebar() {
   return (
     <aside className="sidebar" aria-label="Menu principal">
       <div className="sidebar-inner">
-        <Link to="/clientes" className="sidebar-brand">
+        <Link to="/dashboard" className="sidebar-brand">
           <span className="sidebar-brand-icon"><FiSettings aria-hidden="true" /></span>
           <span>Auto<span className="sidebar-brand-accent">Gestão</span></span>
         </Link>
         <p className="sidebar-section-title">GERENCIAMENTO</p>
         <nav className="sidebar-nav" aria-label="Navegação do sistema">
+          <NavLink to="/dashboard" className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}>
+            <FiGrid aria-hidden="true" /><span>Dashboard</span>
+          </NavLink>
           <NavLink to="/clientes" className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}>
             <FiUsers aria-hidden="true" /><span>Clientes</span>
           </NavLink>
