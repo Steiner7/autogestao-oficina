@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useClientes } from "../contexts/ClientesContext";
 import { mensagemDeErro } from "../services/api";
-import { descobrirTipo, listarMarcas, listarModelos, mesmoNome, TIPOS_VEICULO, type ItemFipe, type TipoVeiculo } from "../services/fipe";
+import { anosPadrao, descobrirTipo, listarAnos, listarMarcas, listarModelos, mesmoNome, TIPOS_VEICULO, type ItemFipe, type TipoVeiculo } from "../services/fipe";
 import type { Veiculo } from "../types/Veiculo";
 import "./ModalVeiculo.css";
 
@@ -27,13 +27,16 @@ export default function ModalVeiculo({ onClose, onSalvar, veiculo }: ModalVeicul
   const [tipo, setTipo] = useState<TipoVeiculo | null>(veiculo ? null : "carros");
   const [marcasFipe, setMarcasFipe] = useState<ItemFipe[]>([]);
   const [modelosFipe, setModelosFipe] = useState<ItemFipe[]>([]);
+  const [anosFipe, setAnosFipe] = useState<number[]>([]);
   const [carregandoMarcas, setCarregandoMarcas] = useState(true);
+  const [carregandoAnos, setCarregandoAnos] = useState(false);
   const [carregandoModelos, setCarregandoModelos] = useState(false);
   const [erroFipe, setErroFipe] = useState("");
   const usarFipe = !erroFipe;
   const marcaFipe = marcasFipe.find((m) => mesmoNome(m.nome, marca));
   const modeloFipe = modelosFipe.find((m) => mesmoNome(m.nome, modelo));
   const codigoMarca = marcaFipe?.codigo ?? "";
+  const codigoModelo = modeloFipe?.codigo ?? "";
 
   useEffect(() => {
     if (!veiculo) return;
@@ -65,19 +68,40 @@ export default function ModalVeiculo({ onClose, onSalvar, veiculo }: ModalVeicul
     return () => { ativo = false; };
   }, [tipo, codigoMarca]);
 
+  // Anos do modelo escolhido. Se a consulta falhar, o campo usa a lista padrão de anos.
+  useEffect(() => {
+    if (!tipo || !codigoMarca || !codigoModelo) { setAnosFipe([]); return; }
+    let ativo = true;
+    setCarregandoAnos(true);
+    listarAnos(tipo, codigoMarca, codigoModelo)
+      .then((anos) => { if (ativo) setAnosFipe(anos); })
+      .catch(() => { if (ativo) setAnosFipe([]); })
+      .finally(() => { if (ativo) setCarregandoAnos(false); });
+    return () => { ativo = false; };
+  }, [tipo, codigoMarca, codigoModelo]);
+
   // Veículos cadastrados antes da FIPE (ou com nomes diferentes) continuam aparecendo na lista.
   const marcaForaDaLista = Boolean(marca) && !marcaFipe;
   const modeloForaDaLista = Boolean(modelo) && !modeloFipe;
+  const opcoesAno = anosFipe.length > 0 ? anosFipe : anosPadrao();
+  const anoForaDaLista = Boolean(ano) && !opcoesAno.includes(Number(ano));
 
   function trocarTipo(novoTipo: TipoVeiculo) {
     setTipo(novoTipo);
     setMarca("");
     setModelo("");
+    setAno("");
   }
 
   function trocarMarca(nome: string) {
     setMarca(nome);
     setModelo("");
+    setAno("");
+  }
+
+  function trocarModelo(nome: string) {
+    setModelo(nome);
+    setAno("");
   }
 
   function salvar(event: FormEvent<HTMLFormElement>) {
@@ -107,10 +131,9 @@ export default function ModalVeiculo({ onClose, onSalvar, veiculo }: ModalVeicul
         <div className="form-grid">
           <div className="form-field full"><label htmlFor="veiculo-cliente">Proprietário *</label><select id="veiculo-cliente" value={clienteId} onChange={(e) => setClienteId(e.target.value)} required><option value="">Selecione um cliente</option>{clientes.map((cliente) => <option key={cliente.id} value={cliente.id}>{cliente.nome} — {cliente.cpf}</option>)}</select></div>
           <div className="form-field"><label htmlFor="veiculo-placa">Placa *</label><input id="veiculo-placa" value={placa} onChange={(e) => setPlaca(e.target.value.toUpperCase())} maxLength={8} placeholder="ABC1D23" required /></div>
-          <div className="form-field"><label htmlFor="veiculo-ano">Ano *</label><input id="veiculo-ano" type="number" min="1900" max={new Date().getFullYear() + 1} value={ano} onChange={(e) => setAno(e.target.value)} placeholder="2022" required /></div>
           {usarFipe ? (
             <>
-              <div className="form-field full"><label htmlFor="veiculo-tipo">Tipo de veículo *</label>
+              <div className="form-field"><label htmlFor="veiculo-tipo">Tipo de veículo *</label>
                 <select id="veiculo-tipo" value={tipo ?? ""} onChange={(e) => trocarTipo(e.target.value as TipoVeiculo)} disabled={!tipo}>
                   {!tipo && <option value="">Identificando tipo...</option>}
                   {TIPOS_VEICULO.map((t) => <option key={t.valor} value={t.valor}>{t.rotulo}</option>)}
@@ -124,7 +147,7 @@ export default function ModalVeiculo({ onClose, onSalvar, veiculo }: ModalVeicul
                 </select>
               </div>
               <div className="form-field full"><label htmlFor="veiculo-modelo">Modelo *</label>
-                <select id="veiculo-modelo" value={modeloFipe?.nome ?? modelo} onChange={(e) => setModelo(e.target.value)} disabled={!marca || carregandoModelos} required>
+                <select id="veiculo-modelo" value={modeloFipe?.nome ?? modelo} onChange={(e) => trocarModelo(e.target.value)} disabled={!marca || carregandoModelos} required>
                   <option value="">{!marca ? "Selecione a marca primeiro" : carregandoModelos ? "Carregando modelos..." : "Selecione o modelo"}</option>
                   {modeloForaDaLista && <option value={modelo}>{modelo}</option>}
                   {modelosFipe.map((m) => <option key={m.codigo} value={m.nome}>{m.nome}</option>)}
@@ -137,6 +160,13 @@ export default function ModalVeiculo({ onClose, onSalvar, veiculo }: ModalVeicul
               <div className="form-field"><label htmlFor="veiculo-modelo">Modelo *</label><input id="veiculo-modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} maxLength={50} placeholder="Onix" required /></div>
             </>
           )}
+          <div className="form-field"><label htmlFor="veiculo-ano">Ano *</label>
+            <select id="veiculo-ano" value={ano} onChange={(e) => setAno(e.target.value)} disabled={carregandoAnos} required>
+              <option value="">{carregandoAnos ? "Carregando anos..." : "Selecione o ano"}</option>
+              {anoForaDaLista && <option value={ano}>{ano}</option>}
+              {opcoesAno.map((a) => <option key={a} value={a}>{a}</option>)}
+            </select>
+          </div>
         </div>
         {erroFipe && <p className="info-box">{erroFipe} Informe a marca e o modelo manualmente.</p>}
         {clientes.length === 0 && <p className="info-box">Cadastre um cliente antes de cadastrar veículos.</p>}

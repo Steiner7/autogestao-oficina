@@ -21,6 +21,24 @@ export function listarModelos(tipo: TipoVeiculo, codigoMarca: string) {
   return api<ItemFipe[]>(`/fipe/${tipo}/marcas/${codigoMarca}/modelos`);
 }
 
+// A FIPE lista um item por ano e combustível ("2022 Gasolina", "2022 Flex"); aqui ficam só os anos, do mais novo ao mais antigo.
+// O código 32000 significa "zero km" e vira o ano atual.
+export async function listarAnos(tipo: TipoVeiculo, codigoMarca: string, codigoModelo: string) {
+  const itens = await api<ItemFipe[]>(`/fipe/${tipo}/marcas/${codigoMarca}/modelos/${codigoModelo}/anos`);
+  const anoAtual = new Date().getFullYear();
+  const anos = itens
+    .map((item) => Number.parseInt(item.codigo, 10))
+    .filter(Number.isFinite)
+    .map((ano) => ano === 32000 ? anoAtual : ano);
+  return [...new Set(anos)].sort((a, b) => b - a);
+}
+
+// Lista usada quando não há modelo da FIPE selecionado: do próximo ano até 1950.
+export function anosPadrao() {
+  const proximo = new Date().getFullYear() + 1;
+  return Array.from({ length: proximo - 1950 + 1 }, (_, i) => proximo - i);
+}
+
 // O tipo não é gravado no banco: ao editar, ele é deduzido procurando marca e modelo em cada categoria.
 // Prefere a categoria em que marca e modelo existem; senão, a primeira em que só a marca existe.
 export async function descobrirTipo(marca: string, modelo: string): Promise<TipoVeiculo> {

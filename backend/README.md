@@ -77,6 +77,7 @@ Erros retornam `{ "mensagem": "..." }`.
 | `DELETE` | `/api/ordens-servico/:id` | Excluir |
 | `GET` | `/api/fipe/:tipo/marcas` | Marcas da tabela FIPE (`tipo`: `carros`, `motos` ou `caminhoes`, que inclui micro-ônibus) |
 | `GET` | `/api/fipe/:tipo/marcas/:codigo/modelos` | Modelos de uma marca |
+| `GET` | `/api/fipe/:tipo/marcas/:codigo/modelos/:modelo/anos` | Anos-modelo de um modelo (o código `32000` indica zero km) |
 
 As rotas `/api/fipe` consultam a [API FIPE gratuita da Parallelum](https://deividfortuna.github.io/fipe/), que permite 500 requisições por dia. Por isso as respostas ficam em cache na memória do servidor por 24h.
 

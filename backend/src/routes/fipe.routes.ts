@@ -48,3 +48,11 @@ fipeRoutes.get("/:tipo/marcas/:codigo/modelos", async (req, res) => {
   const codigo = parseId(req.params.codigo);
   res.json(await buscarNaFipe(`/${tipo}/marcas/${codigo}/modelos`, (json) => (json as { modelos: ItemFipe[] }).modelos));
 });
+
+// Anos-modelo com combustível, ex.: { codigo: "2022-1", nome: "2022 Gasolina" }; o ano 32000 indica zero km.
+fipeRoutes.get("/:tipo/marcas/:codigo/modelos/:modelo/anos", async (req, res) => {
+  const tipo = parseTipo(req.params.tipo);
+  const codigo = parseId(req.params.codigo);
+  const modelo = parseId(req.params.modelo);
+  res.json(await buscarNaFipe(`/${tipo}/marcas/${codigo}/modelos/${modelo}/anos`, (json) => json as ItemFipe[]));
+});
